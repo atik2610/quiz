@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +19,9 @@ public class User {
     private String email;
 
     private String password;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Quiz> quizzes = new ArrayList<>();
 
     public User() {
     }
@@ -58,4 +64,11 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Quiz> getQuizzes() {
+    return quizzes;
+}
+    public void setQuizzes(List<Quiz> quizzes) {
+    this.quizzes = quizzes;
+}
 }
