@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -18,6 +20,9 @@ public class Quiz {
     @ManyToOne
     @JoinColumn(name="owner_id")
     private User owner;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Question> questions = new java.util.ArrayList<>();
 
     public Quiz() {
     }
@@ -50,5 +55,13 @@ public class Quiz {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public List<Question> getQuestions() {
+    return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }
