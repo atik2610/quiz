@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LeaderboardEntry;
 import com.example.demo.service.LeaderboardService;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/leaderboard")
@@ -17,7 +17,15 @@ public class LeaderboardController {
     }
 
     @GetMapping("/{quizId}")
-    public List<LeaderboardEntry> getLeaderboard(@PathVariable Long quizId) {
+    public Object getLeaderboard(@PathVariable Long quizId,
+                                 HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "Please login first";
+        }
+
         return leaderboardService.getLeaderboard(quizId);
     }
 }

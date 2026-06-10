@@ -21,16 +21,21 @@ public class UserService {
         }
         return userRepository.save(user);
     }
+    public User getUserById(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
 
-    public boolean login(User user) {
+    public User login(User user) {
 
         Optional<User> dbUser = userRepository.findByEmail(user.getEmail());
 
-        if (dbUser.isPresent()) {
-            return dbUser.get().getPassword().equals(user.getPassword());
+        if (dbUser.isPresent() &&
+            dbUser.get().getPassword().equals(user.getPassword())) {
+
+            return dbUser.get();
         }
 
-        return false;
+        return null;
     }
 
     public List<User> getAllUsers() {
